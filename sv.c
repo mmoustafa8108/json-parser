@@ -33,6 +33,12 @@ void sv_trim_left(String_View* sv) {
     }
 }
 
+
+void sv_trim(String_View* sv) {
+    sv_trim_left(sv);
+    sv_trim_right(sv);
+}
+
 String_View sv_chop_by_delim(String_View* sv, char delim) {
     size_t i = 0;
     while (i < sv->count && sv->data[i] != delim) i++;
