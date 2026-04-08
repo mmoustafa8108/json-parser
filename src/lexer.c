@@ -68,47 +68,27 @@ String_View lex_str(json_lexer_t* lexer) {
     return (String_View) {.data = data, .count = size};
 }
 
-String_View lex_array(json_lexer_t* lexer) {
-    consume(lexer, '[');
-    
-    size_t size  = 0;
-    const char* data = lexer->content.data;
-    while (!consume(lexer, ']') && lexer->content.count > 0) size++;
-    
-    consume(lexer, ']');
-    return (String_View) {.data = data, .count = size};
-}
-
-
-token_t lex_element(json_lexer_t* lexer) {
-    switch (peek(lexer)) {
-        case '"': return (token_t){.type = TOKEN_STRING, lex_str(lexer), .line = lexer->line};
-        case '[': return  (token_t){.type = TOKEN_ARRAY, lex_array(lexer), .line = lexer->line};
-    }
-}
-
 
 token_t get_next_token(json_lexer_t* lexer) {
     switch (peek(lexer)) {
         case '{': 
             consume(lexer, '{');
-            return (token_t){.type = TOKEN_LBRACE, (String_View){.data = lexer->content.data, .count = 1}, .line = lexer->line};
+            return (token_t){.type = TOKEN_LBRACE, .data = (String_View){.data = lexer->content.data, .count = 1}, .line = lexer->line};
         case '}':
             consume(lexer, '}');
-            return (token_t){.type = TOKEN_RBRACE, (String_View){.data = lexer->content.data, .count = 1}, .line = lexer->line};
+            return (token_t){.type = TOKEN_RBRACE, .data = (String_View){.data = lexer->content.data, .count = 1}, .line = lexer->line};
         case '"':
             consume(lexer, '"');
-            return (token_t)(.type = TOKEN_STRING, parse_str(lexer), .line = lexer->line);
-            break;
+            return (token_t){.type = TOKEN_STRING, .data = lex_str(lexer), .line = lexer->line};
         case ':':
             consume(lexer , ':');
-            return (token_t){.type = TOKEN_COLUMN, (String_View){.data = lexer->content.data, .count = 1}, .line = lexer->line};
+            return (token_t){.type = TOKEN_COLUMN, .data = (String_View){.data = lexer->content.data, .count = 1}, .line = lexer->line};
         case '[':
             consume(lexer, '[');
-            return (token_t){.type = TOKEN_LBRACKET, (String_View){.data = lexer->content.data, .count - 1}, .line = lexer->line};
+            return (token_t){.type = TOKEN_LBRACKET, .data = (String_View){.data = lexer->content.data, .count = 1}, .line = lexer->line};
         case ']':
             consume(lexer, ']');
-            return (token_t){.type = TOKEN_RBRACKET, (String_View){.data = lexer->content.data, .count - 1}, .line = lexer->line};
-        default: return (token_t){.type = TOKEN_INVALID, EMPTY_SV(), .line = lexer->line};
+            return (token_t){.type = TOKEN_RBRACKET, .data = (String_View){.data = lexer->content.data, .count = 1}, .line = lexer->line};
+        default: return (token_t){.type = TOKEN_INVALID, .data = EMPTY_SV(), .line = lexer->line};
     }
 }
