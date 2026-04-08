@@ -1,0 +1,32 @@
+{
+  "string_tests": {
+    "basic": "Hello World",
+    "escaped_chars": "\" \\ / \b \f \n \r \t",
+    "unicode": "\u004A\u0053\u004F\u004E",
+    "empty": ""
+  },
+  "number_tests": {
+    "integer": 123,
+    "negative": -123,
+    "fraction": 123.456,
+    "exponent_pos": 1e10,
+    "exponent_neg": 1.23E-5,
+    "zero": 0
+  },
+  "boolean_null_tests": {
+    "true_val": true,
+    "false_val": false,
+    "null_val": null
+  },
+  "structure_tests": {
+    "empty_object": {},
+    "empty_array": [],
+    "nested_array": [1, [2, 3], {"key": "value"}],
+    "whitespace_check": 
+    [
+      "space",
+	  "tab",
+      "newline"
+    ]
+  }
+}

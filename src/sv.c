@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "sv.h"
@@ -33,7 +34,6 @@ void sv_trim_left(String_View* sv) {
     }
 }
 
-
 void sv_trim(String_View* sv) {
     sv_trim_left(sv);
     sv_trim_right(sv);
@@ -48,9 +48,9 @@ String_View sv_chop_by_delim(String_View* sv, char delim) {
 	    sv_chop_left(sv, sv->count);
 	    return result;
     } else {
-	String_View result = {.data = sv->data, .count = i};
-	sv_chop_left(sv, i + 1);
-	return result;
+        String_View result = {.data = sv->data, .count = i};
+        sv_chop_left(sv, i + 1);
+        return result;
     }
 }
 
@@ -63,8 +63,21 @@ String_View sv_chop_by_type(String_View* sv, int(*istype)(int c)) {
 	    sv_chop_left(sv, sv->count);
 	    return result;
     } else {
-	String_View result = {.data = sv->data, .count = i};
-	sv_chop_left(sv, i + 1);
-	return result;
+        String_View result = {.data = sv->data, .count = i};
+        sv_chop_left(sv, i + 1);
+        return result;
     } 
+}
+
+
+char* cstr(String_View* sv) {
+    if (!sv || !sv->data) return NULL;    
+
+    char* string = (char*)malloc(sv->count + 1);
+    if (!string) return NULL;
+
+    memcpy(string, sv->data, sv->count);
+    
+    string[sv->count] = '\0';
+    return string;
 }

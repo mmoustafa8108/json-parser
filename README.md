@@ -1,5 +1,5 @@
-# str_view
+# json_parser
 
-an imeplementation for string view (similar to @tsoding implementation) for the sake of doing so!
+introducing YAJSONP (yet another JSON parser), a JSON parser library in C.. to parse JSON files (or string views), it'll produce `json_object_t`.
 
-if you don't know how to build this project.. you shouldn't build it in the first place..
+it's beautiful though.
